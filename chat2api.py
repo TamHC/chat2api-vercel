@@ -54,6 +54,7 @@ async def to_send_conversation(request_data, req_token):
     try:
         await chat_service.set_dynamic_data(request_data)
         await chat_service.get_chat_requirements()
+        logger.info(str(globals.token_list))
         return chat_service
     except HTTPException as e:
         await chat_service.close_client()
