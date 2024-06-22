@@ -35,5 +35,5 @@ async def set_wss(token, wss_mode, wss_url=None):
     if not token:
         return True
     globals.wss_map[token] = {"timestamp": int(time.time()), "wss_url": wss_url, "wss_mode": wss_mode}
-    await save_wss_map(globals.wss_map)
+    #await save_wss_map(globals.wss_map)
     return True
