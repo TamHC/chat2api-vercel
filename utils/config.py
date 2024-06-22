@@ -18,6 +18,9 @@ def is_true(x):
         return False
 
 
+dropbox_refresh_token=os.getenv('DropBox_Token', "")
+dropbox_app_key=os.getenv('DropBox_Key', "")
+dropbox_app_secret=os.getenv('DropBox_Secret', "")
 api_prefix = os.getenv('API_PREFIX', None)
 authorization = os.getenv('AUTHORIZATION', '').replace(' ', '')
 chatgpt_base_url = os.getenv('CHATGPT_BASE_URL', 'https://chatgpt.com').replace(' ', '')
