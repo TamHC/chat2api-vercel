@@ -1,1 +1,1 @@
-web: gunicorn -w 4 -b 0.0.0.0:$PORT chat2api:app
+web: gunicorn -w 4 -b 0.0.0.0:$PORT chat2api:app -k uvicorn.workers.UvicornWorker
