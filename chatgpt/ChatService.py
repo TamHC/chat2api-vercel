@@ -3,7 +3,6 @@ import json
 import random
 import types
 import uuid
-
 import websockets
 from fastapi import HTTPException
 from starlette.concurrency import run_in_threadpool
