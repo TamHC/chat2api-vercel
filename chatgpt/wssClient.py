@@ -5,9 +5,12 @@ from utils.Logger import logger
 import chatgpt.globals as globals
 
 
-def save_wss_map(wss_map):
-    with open(globals.WSS_MAP_FILE, "w") as file:
-        json.dump(wss_map, file)
+async def save_wss_map(wss_map):
+    try:
+        content = json.dumps(wss_map).encode()
+        globals.dbx.files_upload(content, globals.WSS_MAP_FILE, mode=globals.WriteMode('overwrite'))
+    except Exception as e:
+        raise e
 
 
 async def token2wss(token):
@@ -32,5 +35,5 @@ async def set_wss(token, wss_mode, wss_url=None):
     if not token:
         return True
     globals.wss_map[token] = {"timestamp": int(time.time()), "wss_url": wss_url, "wss_mode": wss_mode}
-    save_wss_map(globals.wss_map)
+    await save_wss_map(globals.wss_map)
     return True
