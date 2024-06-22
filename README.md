@@ -7,7 +7,9 @@
 💥 支持 AccessToken 使用账号，支持 `GPT-4`、`GPT-4o`、 `GPTs`
 
 🔍 回复格式与真实 API 完全一致，适配几乎所有客户端
+
 一键部署到Vercel
+
 [![Deploy to Vercel](https://vercel.com/button)](https://vercel.com/import/project?template=happylwws/chat2api-vercel&env=DropBox_Token,DropBox_Key,DropBox_Secret)
 
 
