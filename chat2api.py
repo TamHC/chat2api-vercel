@@ -28,7 +28,7 @@ warnings.filterwarnings("ignore")
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    scheduler.add_job(name='save_files', func=save_files, trigger='cron', minute='*/3')
+    scheduler.add_job(name='save_files', func=save_files, trigger='cron', hour=6, minute=0)
     scheduler.start()
     yield
     scheduler.shutdown()
