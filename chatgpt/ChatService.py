@@ -10,11 +10,15 @@ from starlette.concurrency import run_in_threadpool
 
 from api.files import get_image_size, get_file_extension, determine_file_use_case
 from api.models import model_proxy
+
 from chatgpt.authorization import get_req_token, verify_token
 from chatgpt.chatFormat import api_messages_to_chat, stream_response, wss_stream_response, format_not_stream_response
 from chatgpt.chatLimit import check_is_limit, handle_request_limit
 from chatgpt.proofofWork import get_config, get_dpl, get_answer_token, get_requirements_token
 from chatgpt.wssClient import token2wss, set_wss
+from chatgpt.refreshToken import ac2rt
+import chatgpt.globals as globals
+
 from utils.Client import Client
 from utils.Logger import logger
 from utils.config import proxy_url_list, chatgpt_base_url_list, arkose_token_url_list, history_disabled, pow_difficulty, \
@@ -23,7 +27,7 @@ from utils.config import proxy_url_list, chatgpt_base_url_list, arkose_token_url
 
 class ChatService:
     def __init__(self, origin_token=None):
-        self.user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0"
+        self.user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36 Edg/125.0.0.0"
         self.req_token = get_req_token(origin_token)
         self.chat_token = "gAAAAAB"
         self.s = None
@@ -234,10 +238,32 @@ class ChatService:
                     detail = r.text
                 if "cf-please-wait" in detail:
                     raise HTTPException(status_code=r.status_code, detail="cf-please-wait")
+                if "If you are using a VPN, try turning it off" in detail:
+                    raise HTTPException(status_code=r.status_code, detail="using a VPN")
+                if "403 Forbidden" in detail:
+                    raise HTTPException(status_code=r.status_code, detail="403 Forbidden")    
                 if r.status_code == 429:
                     raise HTTPException(status_code=r.status_code, detail="rate-limit")
                 raise HTTPException(status_code=r.status_code, detail=detail)
         except HTTPException as e:
+            if "deactivated" in str(e) or "deleted" in str(e):
+                refresh_token=await ac2rt(self.access_token)
+                if refresh_token:
+                    await globals.del_token(refresh_token)
+                else:
+                    await globals.del_token(self.access_token)
+                globals.count -= 1
+            elif "expired" in str(e):
+                refresh_token=await ac2rt(self.access_token)
+                if refresh_token:
+                    if refresh_token in globals.refresh_map.keys():
+                        del globals.refresh_map[refresh_token]
+                    if refresh_token in globals.wss_map.keys():
+                        del globals.wss_map[refresh_token]
+                else:
+                    await globals.del_token(self.access_token)
+                    globals.count -= 1
+
             raise HTTPException(status_code=e.status_code, detail=e.detail)
         except Exception as e:
             raise HTTPException(status_code=500, detail=str(e))
