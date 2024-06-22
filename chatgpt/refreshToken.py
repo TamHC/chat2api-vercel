@@ -27,7 +27,7 @@ async def rt2ac(refresh_token, force_refresh=False):
         try:
             access_token = await chat_refresh(refresh_token)
             globals.refresh_map[refresh_token] = {"token": access_token, "timestamp": int(time.time())}
-            await save_refresh_map(globals.refresh_map)
+            #await save_refresh_map(globals.refresh_map)
             logger.info(f"refresh_token -> access_token with openai: {access_token}")
             return access_token
         except HTTPException as e:
