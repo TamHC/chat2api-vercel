@@ -10,7 +10,7 @@
 
 ## 一键部署到Vercel
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/happylwws/chat2api-vercel&env=DropBox_Token,DropBox_Key,DropBox_Secret)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/happylwws/chat2api-vercel&env=DropBox_Token&env=DropBox_Key&env=DropBox_Secret)
 
 
 ## 交流群
