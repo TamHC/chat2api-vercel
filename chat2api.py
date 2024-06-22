@@ -36,7 +36,7 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(lifespan=lifespan)
 scheduler = AsyncIOScheduler()
-templates = Jinja2Templates(directory="C:\\Users\\lw\\Downloads\\chat2api-vercel-main\\templates")
+templates = Jinja2Templates(directory="templates")
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token", auto_error=False)
 
 app.add_middleware(
