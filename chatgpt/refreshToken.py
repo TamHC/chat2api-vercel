@@ -7,6 +7,7 @@ from fastapi import HTTPException
 from utils.Client import Client
 from utils.Logger import logger
 from utils.config import proxy_url_list
+from utils.deletetoken import del_token
 import chatgpt.globals as globals
 
 
@@ -51,7 +52,7 @@ async def chat_refresh(refresh_token):
             return access_token
         else:
             if "access_denied" in r.text or "invalid_grant" in r.text:
-                await globals.del_token(refresh_token)
+                await del_token(refresh_token)
                 globals.count -= 1
             raise Exception(r.text[:100])
     except Exception as e:
