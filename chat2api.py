@@ -21,7 +21,7 @@ from chatgpt.reverseProxy import chatgpt_reverse_proxy
 from utils.Logger import logger
 from utils.config import api_prefix, scheduled_refresh
 from utils.retry import async_retry
-from utils.savefile import save_files
+from utils.savefile import save_files, write_token_file
 
 
 warnings.filterwarnings("ignore")
@@ -105,7 +105,7 @@ async def upload_post(text: str = Form(...)):
     for line in lines:
         if line.strip() and not line.startswith("#"):
             globals.token_list.append(line.strip())
-    #await write_token_file(globals.TOKENS_FILE, globals.token_list)
+    await write_token_file(globals.TOKENS_FILE, globals.token_list)
     logger.info(f"Token count: {len(globals.token_list)}, Error token count: {len(globals.error_token_list)}")
     tokens_count = len(globals.token_list)
     return {"status": "success", "tokens_count": tokens_count}
