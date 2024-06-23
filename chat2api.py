@@ -21,7 +21,7 @@ from chatgpt.reverseProxy import chatgpt_reverse_proxy
 from utils.Logger import logger
 from utils.config import api_prefix, scheduled_refresh
 from utils.retry import async_retry
-from utils.savefile import save_files, write_token_file
+from utils.deteletoken import write_token_file
 
 
 warnings.filterwarnings("ignore")
