@@ -20,6 +20,7 @@ import chatgpt.globals as globals
 
 from utils.Client import Client
 from utils.Logger import logger
+from utils.deletetoken import del_token
 from utils.config import proxy_url_list, chatgpt_base_url_list, arkose_token_url_list, history_disabled, pow_difficulty, \
     conversation_only, enable_limit, upload_by_url, check_model, auth_key
 
@@ -248,9 +249,9 @@ class ChatService:
             if "deactivated" in str(e) or "deleted" in str(e):
                 refresh_token=await ac2rt(self.access_token)
                 if refresh_token:
-                    await globals.del_token(refresh_token)
+                    await del_token(refresh_token)
                 else:
-                    await globals.del_token(self.access_token)
+                    await del_token(self.access_token)
                 globals.count -= 1
             elif "expired" in str(e):
                 refresh_token=await ac2rt(self.access_token)
@@ -260,7 +261,7 @@ class ChatService:
                     if refresh_token in globals.wss_map.keys():
                         del globals.wss_map[refresh_token]
                 else:
-                    await globals.del_token(self.access_token)
+                    await del_token(self.access_token)
                     globals.count -= 1
 
             raise HTTPException(status_code=e.status_code, detail=e.detail)
