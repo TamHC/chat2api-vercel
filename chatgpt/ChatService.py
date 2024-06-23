@@ -14,8 +14,8 @@ from chatgpt.authorization import get_req_token, verify_token
 from chatgpt.chatFormat import api_messages_to_chat, stream_response, wss_stream_response, format_not_stream_response
 from chatgpt.chatLimit import check_is_limit, handle_request_limit
 from chatgpt.proofofWork import get_config, get_dpl, get_answer_token, get_requirements_token
-from chatgpt.wssClient import token2wss, set_wss
-from chatgpt.refreshToken import ac2rt
+from chatgpt.wssClient import token2wss, set_wss, save_wss_map
+from chatgpt.refreshToken import ac2rt, save_refresh_map
 import chatgpt.globals as globals
 
 from utils.Client import Client
@@ -258,8 +258,10 @@ class ChatService:
                 if refresh_token:
                     if refresh_token in globals.refresh_map.keys():
                         del globals.refresh_map[refresh_token]
+                        await save_refresh_map(globals.refresh_map)
                     if refresh_token in globals.wss_map.keys():
                         del globals.wss_map[refresh_token]
+                        await save_wss_map(globals.wss_map)
                 else:
                     await del_token(self.access_token)
                     globals.count -= 1
