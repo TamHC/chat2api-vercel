@@ -21,3 +21,18 @@ async def save_files():
     await save_wss_map(globals.wss_map)
     await write_token_file(globals.TOKENS_FILE, globals.token_list)
     await write_token_file(globals.ERROR_TOKENS_FILE, globals.error_token_list)
+
+
+async def del_token(token):
+    if token in refresh_map.keys():
+        del refresh_map[token]
+        await save_refresh_map(globals.refresh_map)
+    if token in wss_map.keys():
+        del wss_map[token]
+        await save_wss_map(globals.wss_map)
+    if token in token_list:
+        globals.token_list.remove(token)
+        await write_token_file(globals.TOKENS_FILE, globals.token_list)
+    if token not in error_token_list:
+        globals.error_token_list.append(token)
+        await write_token_file(globals.ERROR_TOKENS_FILE, globals.error_token_list)
