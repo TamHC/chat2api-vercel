@@ -7,7 +7,7 @@ from fastapi import HTTPException
 from utils.Client import Client
 from utils.Logger import logger
 from utils.config import proxy_url_list
-from utils.deletetoken import del_token
+from utils.deletetoken import write_token_file
 import chatgpt.globals as globals
 
 
@@ -69,3 +69,18 @@ async def ac2rt(access_token):
         if v["token"] == access_token:
             return k
     return None
+
+
+async def del_token(token):
+    if token in refresh_map.keys():
+        del globals.refresh_map[token]
+        await save_refresh_map(globals.refresh_map)
+    if token in wss_map.keys():
+        del globalsave.wss_map[token]
+        await save_wss_map(globals.wss_map)
+    if token in token_list:
+        globals.token_list.remove(token)
+        await write_token_file(globals.TOKENS_FILE, globals.token_list)
+    if token not in error_token_list:
+        globals.error_token_list.append(token)
+        await write_token_file(globals.ERROR_TOKENS_FILE, globals.error_token_list)
