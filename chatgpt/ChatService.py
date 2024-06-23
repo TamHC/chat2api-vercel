@@ -15,12 +15,11 @@ from chatgpt.chatFormat import api_messages_to_chat, stream_response, wss_stream
 from chatgpt.chatLimit import check_is_limit, handle_request_limit
 from chatgpt.proofofWork import get_config, get_dpl, get_answer_token, get_requirements_token
 from chatgpt.wssClient import token2wss, set_wss, save_wss_map
-from chatgpt.refreshToken import ac2rt, save_refresh_map
+from chatgpt.refreshToken import ac2rt, save_refresh_map, del_token
 import chatgpt.globals as globals
 
 from utils.Client import Client
 from utils.Logger import logger
-from utils.deletetoken import del_token
 from utils.config import proxy_url_list, chatgpt_base_url_list, arkose_token_url_list, history_disabled, pow_difficulty, \
     conversation_only, enable_limit, upload_by_url, check_model, auth_key
 
