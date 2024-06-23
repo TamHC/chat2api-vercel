@@ -15,14 +15,6 @@ async def write_token_file(token_file,token_list):
         logger.error(f"write file error.{str(e)}")
 
 
-async def save_files():
-    '''把REFRESH_MAP_FILE和token.txt里失效的refresh_token删除'''
-    await save_refresh_map(globals.refresh_map)
-    await save_wss_map(globals.wss_map)
-    await write_token_file(globals.TOKENS_FILE, globals.token_list)
-    await write_token_file(globals.ERROR_TOKENS_FILE, globals.error_token_list)
-
-
 async def del_token(token):
     if token in refresh_map.keys():
         del refresh_map[token]
