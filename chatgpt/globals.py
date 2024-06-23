@@ -20,16 +20,6 @@ refresh_map = {}
 wss_map = {}
 
 
-async def del_token(token):
-    if token in refresh_map.keys():
-        del refresh_map[token]
-    if token in wss_map.keys():
-        del wss_map[token]
-    if token in token_list:
-        token_list.remove(token)
-    if token not in error_token_list:
-        error_token_list.append(token)
-
 try:
     # 尝试获取文件元数据
     dbx.files_get_metadata(REFRESH_MAP_FILE)
