@@ -29,7 +29,7 @@ warnings.filterwarnings("ignore")
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    scheduler.add_job(name='save_files', func=save_files, trigger='interval', minutes=60)
+    #scheduler.add_job(name='save_files', func=save_files, trigger='interval', minutes=60)
     scheduler.start()
     yield
     scheduler.shutdown()
@@ -105,7 +105,7 @@ async def upload_post(text: str = Form(...)):
     for line in lines:
         if line.strip() and not line.startswith("#"):
             globals.token_list.append(line.strip())
-    #await write_token_file(globals.TOKENS_FILE, globals.token_list)
+    await write_token_file(globals.TOKENS_FILE, globals.token_list)
     logger.info(f"Token count: {len(globals.token_list)}, Error token count: {len(globals.error_token_list)}")
     tokens_count = len(globals.token_list)
     return {"status": "success", "tokens_count": tokens_count}
@@ -115,6 +115,8 @@ async def upload_post(text: str = Form(...)):
 async def upload_post():
     globals.token_list.clear()
     globals.error_token_list.clear()
+    globals.refresh_map = {}
+    globals.wss_map = {}
     content = b""
     globals.dbx.files_upload(content, globals.TOKENS_FILE, mode=globals.WriteMode('overwrite'))
     globals.dbx.files_upload(content, globals.ERROR_TOKENS_FILE, mode=globals.WriteMode('overwrite'))
@@ -122,7 +124,7 @@ async def upload_post():
     globals.dbx.files_upload(content, globals.REFRESH_MAP_FILE, mode=globals.WriteMode('overwrite'))
     globals.dbx.files_upload(content, globals.WSS_MAP_FILE, mode=globals.WriteMode('overwrite'))
     logger.info(f"Token count: {len(globals.token_list)}, Error token count: {len(globals.error_token_list)}")
-    tokens_count = len(set(globals.token_list) - set(globals.error_token_list))
+    tokens_count = len(globals.token_list)
     return {"status": "success", "tokens_count": tokens_count}
 
 
