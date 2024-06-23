@@ -73,15 +73,15 @@ async def ac2rt(access_token):
 
 
 async def del_token(token):
-    if token in refresh_map.keys():
+    if token in globals.refresh_map.keys():
         del globals.refresh_map[token]
         await save_refresh_map(globals.refresh_map)
-    if token in wss_map.keys():
-        del globals.save.wss_map[token]
+    if token in globals.wss_map.keys():
+        del globals.wss_map[token]
         await save_wss_map(globals.wss_map)
-    if token in token_list:
+    if token in globals.token_list:
         globals.token_list.remove(token)
         await write_token_file(globals.TOKENS_FILE, globals.token_list)
-    if token not in error_token_list:
+    if token not in globals.error_token_list:
         globals.error_token_list.append(token)
         await write_token_file(globals.ERROR_TOKENS_FILE, globals.error_token_list)
