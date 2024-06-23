@@ -9,6 +9,7 @@ from utils.Logger import logger
 from utils.config import proxy_url_list
 from utils.deletetoken import write_token_file
 import chatgpt.globals as globals
+from chatgpt.wssClient import save_wss_map
 
 
 async def save_refresh_map(refresh_map):
@@ -76,7 +77,7 @@ async def del_token(token):
         del globals.refresh_map[token]
         await save_refresh_map(globals.refresh_map)
     if token in wss_map.keys():
-        del globalsave.wss_map[token]
+        del globals.save.wss_map[token]
         await save_wss_map(globals.wss_map)
     if token in token_list:
         globals.token_list.remove(token)
