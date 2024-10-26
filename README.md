@@ -60,9 +60,9 @@
 
 | 分类   | 变量名               | 示例值                                                         | 默认值                   | 描述                                                           |
 |------|-------------------|-------------------------------------------------------------|-----------------------|--------------------------------------------------------------|
-| Vercel部署必須 | DropBox_Key | `your_dropbox_app_key` | `[]` | Dropbox App Key |
-| Vercel部署必須 | DropBox_Secret | `your_dropbox_app_secret` | `[]` | Dropbox App Secret |
-| Vercel部署必須 | DropBox_Token | `your_dropbox_app_refresh_token` | `[]` | Dropbox App Refresh Token |
+| Vercel部署必須 | DropBox_Key | `your_dropbox_app_key` | `[]` | [Dropbox App Key](https://github.com/TamHC/chat2api-vercel/edit/main/README.md#%E5%A6%82%E4%BD%95%E5%8F%96%E5%BE%97-dropbox-app-key-dropbox-app-secret-%E5%92%8C-dropbox-app-refresh-token) |
+| Vercel部署必須 | DropBox_Secret | `your_dropbox_app_secret` | `[]` | [Dropbox App Secret](https://github.com/TamHC/chat2api-vercel/edit/main/README.md#%E5%A6%82%E4%BD%95%E5%8F%96%E5%BE%97-dropbox-app-key-dropbox-app-secret-%E5%92%8C-dropbox-app-refresh-token) |
+| Vercel部署必須 | DropBox_Token | `your_dropbox_app_refresh_token` | `[]` | [Dropbox App Refresh Token](https://github.com/TamHC/chat2api-vercel/edit/main/README.md#%E5%A6%82%E4%BD%95%E5%8F%96%E5%BE%97-dropbox-app-key-dropbox-app-secret-%E5%92%8C-dropbox-app-refresh-token) |
 | 安全相关 | API_PREFIX        | `your_prefix`                                               | `None`                | API 前缀密码，不设置容易被人访问，设置后需请求 `/your_prefix/v1/chat/completions` |
 |      | AUTHORIZATION     | `your_first_authorization`,<br/>`your_second_authorization` | `[]`                  | 你自己为使用多账号轮询 Tokens 设置的授权，英文逗号分隔                              |
 |      | AUTH_KEY          | `your_auth_key`                                             | `None`                | 私人网关需要加`auth_key`请求头才设置该项                                    |
@@ -109,13 +109,13 @@
 
 6. 取得Dropbox Refresh Token
    
-   6.1 進入 `https://www.dropbox.com/oauth2/authorize?client_id=<APP_KEY>&token_access_type=offline&response_type=code` 取得access token (將 `<APP_KEY>` 替換成你的 Dropbox App Key)
+   6.1 進入 `https://www.dropbox.com/oauth2/authorize?client_id=<APP_KEY>&token_access_type=offline&response_type=code` 取得access token **(將 `<APP_KEY>` 替換成你的 Dropbox App Key)**
 
    6.2 按下继续 -> 允许
 
    6.3 复制存取代码 (Access Code)
 
-   6.4 传送POST request (將 `<APP_KEY>`, `<APP_SECRET>` 和 `<ACCESS_CODE>` 替換成你自己的Key)
+   6.4 传送POST request **(將 `<APP_KEY>`, `<APP_SECRET>` 和 `<ACCESS_CODE>` 替換成你自己的Key)**
    
 ```curl
 curl --location --request POST 'https://api.dropboxapi.com/oauth2/token' \
@@ -123,9 +123,8 @@ curl --location --request POST 'https://api.dropboxapi.com/oauth2/token' \
 -H 'Content-Type: application/x-www-form-urlencoded' \
 --data-urlencode 'code=<ACCESS_CODE>' \
 --data-urlencode 'grant_type=authorization_code'
-```
 
-    
+
     6.5 Response 中的 `refresh_token` 就是你的 Dropbox_Token
 
 
