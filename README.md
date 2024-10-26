@@ -60,9 +60,9 @@
 
 | 分类   | 变量名               | 示例值                                                         | 默认值                   | 描述                                                           |
 |------|-------------------|-------------------------------------------------------------|-----------------------|--------------------------------------------------------------|
-| Vercel部署必須 | DropBox_Key |   | `[]` | Dropbox App Key |
-| Vercel部署必須 | DropBox_Secret |   | `[]` | Dropbox App Secret |
-| Vercel部署必須 | DropBox_Token |   | `[]` | Dropbox App Refresh Token |
+| Vercel部署必須 | DropBox_Key | `your_dropbox_app_key` | `[]` | Dropbox App Key |
+| Vercel部署必須 | DropBox_Secret | `your_dropbox_app_secret` | `[]` | Dropbox App Secret |
+| Vercel部署必須 | DropBox_Token | `your_dropbox_app_refresh_token` | `[]` | Dropbox App Refresh Token |
 | 安全相关 | API_PREFIX        | `your_prefix`                                               | `None`                | API 前缀密码，不设置容易被人访问，设置后需请求 `/your_prefix/v1/chat/completions` |
 |      | AUTHORIZATION     | `your_first_authorization`,<br/>`your_second_authorization` | `[]`                  | 你自己为使用多账号轮询 Tokens 设置的授权，英文逗号分隔                              |
 |      | AUTH_KEY          | `your_auth_key`                                             | `None`                | 私人网关需要加`auth_key`请求头才设置该项                                    |
@@ -92,18 +92,30 @@
 
 #### 如何取得 Dropbox App Key, Dropbox App Secret 和 Dropbox App Refresh Token
 1. 登入Dropbox
+
 2. [建立应用程式](https://www.dropbox.com/developers/apps/create?_tk=pilot_lp&_ad=ctabtn1&_camp=create)
+
 3. 設定
+
   3.1 Choose an API -> Scoped access
+  
   3.2 Choose the type of access you need -> App folder
+  
   3.3 Name your app -> 填入App 名称 (可随便取)
+  
   3.4 Create app
-4. 进入应用程式页面会有 App Key 和 App Secret 对应你的 DropBox_Key 和 DropBox_Token
-5. 取得Dropbox Refresh Token
-  5.1 進入 `https://www.dropbox.com/oauth2/authorize?client_id=<APP_KEY>&token_access_type=offline&response_type=code` 取得access token (將 `<APP_KEY>` 替換成你的 Dropbox App Key)
-  5.2 按下继续 -> 允许
-  5.3 复制存取代码 (Access Code)
-  5.3 传送POST request (將 `<APP_KEY>`, `<APP_SECRET>` 和 `<ACCESS_CODE>` 替換成你自己的Key)
+
+5. 进入应用程式页面会有 App Key 和 App Secret 对应你的 DropBox_Key 和 DropBox_Token
+
+6. 取得Dropbox Refresh Token
+   
+   6.1 進入 `https://www.dropbox.com/oauth2/authorize?client_id=<APP_KEY>&token_access_type=offline&response_type=code` 取得access token (將 `<APP_KEY>` 替換成你的 Dropbox App Key)
+
+   6.2 按下继续 -> 允许
+
+   6.3 复制存取代码 (Access Code)
+
+   6.4 传送POST request (將 `<APP_KEY>`, `<APP_SECRET>` 和 `<ACCESS_CODE>` 替換成你自己的Key)
    
 ```curl
 curl --location --request POST 'https://api.dropboxapi.com/oauth2/token' \
@@ -113,7 +125,7 @@ curl --location --request POST 'https://api.dropboxapi.com/oauth2/token' \
 --data-urlencode 'grant_type=authorization_code'
 ```
 
-  5.4 Response 中的 `refresh_token` 就是你的 Dropbox_Token
+    6.5 Response 中的 `refresh_token` 就是你的 Dropbox_Token
 
 
 ### 直接部署
