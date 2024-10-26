@@ -125,6 +125,7 @@ curl --location --request POST 'https://api.dropboxapi.com/oauth2/token' \
 --data-urlencode 'grant_type=authorization_code'
 ```
 
+    
     6.5 Response 中的 `refresh_token` 就是你的 Dropbox_Token
 
 
