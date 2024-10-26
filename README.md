@@ -90,6 +90,8 @@
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/happylwws/chat2api-vercel&env=DropBox_Token&env=DropBox_Key&env=DropBox_Secret)
 
+> 不要透過 Vercel 鏈結進入網關, 要自行輸入網址
+
 #### 如何取得 Dropbox App Key, Dropbox App Secret 和 Dropbox App Refresh Token
 1. 登入Dropbox
 
