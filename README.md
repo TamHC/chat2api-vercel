@@ -97,25 +97,25 @@
 
 3. 設定
 
-  3.1 Choose an API -> Scoped access
+3.1 Choose an API -> Scoped access
   
-  3.2 Choose the type of access you need -> App folder
+3.2 Choose the type of access you need -> App folder
   
-  3.3 Name your app -> 填入App 名称 (可随便取)
+3.3 Name your app -> 填入App 名称 (可随便取)
   
-  3.4 Create app
+3.4 Create app
 
 5. 进入应用程式页面会有 App Key 和 App Secret 对应你的 DropBox_Key 和 DropBox_Token
 
 6. 取得Dropbox Refresh Token
    
-   6.1 進入 `https://www.dropbox.com/oauth2/authorize?client_id=<APP_KEY>&token_access_type=offline&response_type=code` 取得access token **(將 `<APP_KEY>` 替換成你的 Dropbox App Key)**
+6.1 進入 `https://www.dropbox.com/oauth2/authorize?client_id=<APP_KEY>&token_access_type=offline&response_type=code` 取得access token **(將 `<APP_KEY>` 替換成你的 Dropbox App Key)**
 
-   6.2 按下继续 -> 允许
+6.2 按下继续 -> 允许
 
-   6.3 复制存取代码 (Access Code)
+6.3 复制存取代码 (Access Code)
 
-   6.4 传送POST request **(將 `<APP_KEY>`, `<APP_SECRET>` 和 `<ACCESS_CODE>` 替換成你自己的Key)**
+6.4 传送POST request **(將 `<APP_KEY>`, `<APP_SECRET>` 和 `<ACCESS_CODE>` 替換成你自己的Key)**
    
 ```curl
 curl --location --request POST 'https://api.dropboxapi.com/oauth2/token' \
@@ -123,9 +123,9 @@ curl --location --request POST 'https://api.dropboxapi.com/oauth2/token' \
 -H 'Content-Type: application/x-www-form-urlencoded' \
 --data-urlencode 'code=<ACCESS_CODE>' \
 --data-urlencode 'grant_type=authorization_code'
+```
 
-
-    6.5 Response 中的 `refresh_token` 就是你的 Dropbox_Token
+6.5 Response 中的 `refresh_token` 就是你的 Dropbox_Token
 
 
 ### 直接部署
