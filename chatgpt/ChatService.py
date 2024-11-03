@@ -34,11 +34,13 @@ class ChatService:
 
     async def set_dynamic_data(self, data):
         if self.req_token:
+            logger.info(f"Request token: {self.req_token}")
             req_len = len(self.req_token.split(","))
             if req_len == 1:
                 self.access_token = await verify_token(self.req_token)
                 self.account_id = None
             else:
+            logger.info("Request token is empty, use no-auth 3.5")
                 self.access_token = await verify_token(self.req_token.split(",")[0])
                 self.account_id = self.req_token.split(",")[1]
         else:
